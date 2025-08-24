@@ -11,4 +11,4 @@ ENV N8N_EDITOR_BASE_URL=https://n8n-railway-production-49ad.up.railway.app
 
 EXPOSE 8080
 
-CMD ["tini", "--", "n8n"]
+CMD ["n8n"]
