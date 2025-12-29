@@ -4,13 +4,11 @@ RUN apk add --no-cache graphicsmagick tzdata tini
 
 RUN npm install -g n8n
 
-RUN addgroup -g 1000 -S nodegroup \
- && adduser  -u 1000 -S nodeuser -G nodegroup \
- && mkdir -p /home/nodeuser/.n8n \
- && chown -R nodeuser:nodegroup /home/nodeuser
+USER node
 
-USER nodeuser
-ENV N8N_USER_FOLDER=/home/nodeuser/.n8n
+ENV N8N_USER_FOLDER=/home/node/.n8n
+RUN mkdir -p /home/node/.n8n
+
 ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
 
 ENV N8N_HOST=0.0.0.0
