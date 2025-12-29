@@ -1,11 +1,17 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
-RUN apk add --no-cache \
-    graphicsmagick \
-    tzdata \
-    tini
+RUN apk add --no-cache graphicsmagick tzdata tini
 
 RUN npm install -g n8n
+
+RUN addgroup -g 1000 -S nodegroup \
+ && adduser  -u 1000 -S nodeuser -G nodegroup \
+ && mkdir -p /home/nodeuser/.n8n \
+ && chown -R nodeuser:nodegroup /home/nodeuser
+
+USER nodeuser
+ENV N8N_USER_FOLDER=/home/nodeuser/.n8n
+ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
 
 ENV N8N_HOST=0.0.0.0
 ENV N8N_PORT=8080
@@ -14,5 +20,5 @@ ENV N8N_EDITOR_BASE_URL=https://n8n-railway-production-49ad.up.railway.app
 
 EXPOSE 8080
 
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["n8n"]
+ENTRYPOINT ["/sbin/tini","--"]
+CMD ["n8n","start"]
