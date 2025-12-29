@@ -1,12 +1,7 @@
-FROM n8nio/n8n:1.1.0-debian
+FROM n8nio/n8n:1.93.0
 
 USER root
-
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
-     graphicsmagick \
-     tzdata \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache graphicsmagick tzdata
 
 ENV N8N_HOST=0.0.0.0
 ENV N8N_PORT=8080
